@@ -168,7 +168,8 @@ def get_top(
                         value=None
                     
                     text.append(value)
-
+                if text==[]:
+                    continue
                 text.append(country)
                 text.append(fanwei)
                 text.append(fenye)
@@ -481,9 +482,9 @@ outfile = Recorder(folder_path + "/" + outfilepath, cache_size=5000)
 if os.path.exists(outfilepath)==False:
     outfile.set.head(columns)
 
-getbuiltwithtopsitespaginations()
-dumppagi()
-# getbuiltwithtopsites()
+# getbuiltwithtopsitespaginations()
+# dumppagi()
+getbuiltwithtopsites()
 batched_writer.close()
 
 end = datetime.now()
