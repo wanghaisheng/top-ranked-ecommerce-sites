@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env python
 
 import asyncio
@@ -135,14 +133,15 @@ def get_top(
             page.get(query_url)
 
             page.wait.load_start()
+            maxpagi=21
+
             try:
-                maxpagi=page.ele('.pagination').texts
-                max_int = max((x for x in maxpagi if isinstance(x, int)), default=None)
+                max_int=page.ele('.pagination').texts()
 
-                maxpagi=max_int+1
+
+                maxpagi=int(max_int[-2])
             except:
-                maxpagi=21
-
+                pass
             if fenye==1:
 
                 with lock:  # Ensure that only one thread can access the dictionary at a time
