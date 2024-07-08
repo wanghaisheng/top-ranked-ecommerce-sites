@@ -1,3 +1,5 @@
+
+
 #!/usr/bin/env python
 
 import asyncio
@@ -133,8 +135,14 @@ def get_top(
             page.get(query_url)
 
             page.wait.load_start()
-            maxpagi=page.ele('.pagination').children()[-2].text
-            maxpagi=int(maxpagi)
+            try:
+                maxpagi=page.ele('.pagination').texts
+                max_int = max((x for x in maxpagi if isinstance(x, int)), default=None)
+
+                maxpagi=max_int+1
+            except:
+                maxpagi=21
+
             if fenye==1:
 
                 with lock:  # Ensure that only one thread can access the dictionary at a time
@@ -409,7 +417,7 @@ def getbuiltwithtopsites():
                 
             if  shared_dict and shared_dict!={}:
                 with lock:  # Ensure thread-safe access to the shared dictionary
-                    maxpagi=shared_dict.get(country+'_'+fanwei,20)+1
+                    maxpagi=shared_dict.get(country+'_'+fanwei,21)
             if os.path.exists(file_path):
                 shared_dict=json.load(open(file_path))
             for i in range(1,maxpagi):
@@ -474,9 +482,9 @@ outfile = Recorder(folder_path + "/" + outfilepath, cache_size=5000)
 if os.path.exists(outfilepath)==False:
     outfile.set.head(columns)
 
-# getbuiltwithtopsitespaginations()
-# dumppagi()
-getbuiltwithtopsites()
+getbuiltwithtopsitespaginations()
+dumppagi()
+# getbuiltwithtopsites()
 batched_writer.close()
 
 end = datetime.now()
